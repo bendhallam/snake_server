@@ -59,6 +59,14 @@ class RemoteInterface {
     this.clients.push(client)
     this.resetIdleTimer(client, MAX_IDLE_TIMEOUT / 2)
 
+    // STRETCH GOAL: send a message to all current clients whenever a new client connects to the server
+    for (let connection of this.clients) {
+      // check if current client is the client that connected
+      if (connection !== client)
+      connection.write("New player has joined")
+    }
+
+
     if (this.newClientHandler) this.newClientHandler(client)
 
     client.on('data', this.handleClientData.bind(this, client))
